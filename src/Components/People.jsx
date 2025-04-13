@@ -65,7 +65,7 @@ const People = () => {
               whileHover={{ scale: 1.2 }}
             />
           </motion.div>
-            People<small className='text-zinc-400 text-sm mt-2'>({category})</small>
+            People
           </h1> 
           <div className="flex items-center gap-4 w-[75%]">
             <Topnav />

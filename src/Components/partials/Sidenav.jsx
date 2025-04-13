@@ -53,7 +53,7 @@ const Sidenav = () => {
           >
             <Link 
               to={item.path}
-              className={`flex items-center gap-3 rounded-lg p-3 text-lg transition-all duration-300 ${
+              className={`flex items-center gap-3 rounded-lg mt-1 p-3 text-lg transition-all duration-300 ${
                 location.pathname === item.path 
                   ? 'bg-[#6556CD] text-white' 
                   : 'text-zinc-400 hover:bg-[#6556CD]/20 hover:text-white'
