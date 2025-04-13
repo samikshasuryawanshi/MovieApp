@@ -1,0 +1,78 @@
+@import "tailwindcss";
+/* 
+primary-color : #1F1E24: 
+secondary-color : #6556CD
+#1b1a20
+ */
+
+ /* body{
+    background: #24232b;
+ } */
+
+::-webkit-scrollbar{
+    width: 7px;
+    cursor: grab;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#1b1a1e;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover{
+    background: #6556CD;
+}
+
+select{
+   -webkit-appearance: none;                
+   -moz-appearance: none;
+   -ms-appearance: none;
+   appearance: none;             
+   outline: none;
+   box-shadow: none;
+   border:0 !important;
+   background: #27272a;
+   color: #fff;
+   padding: 0 0.5em;
+   font-size: 1em;
+   cursor: pointer;
+   position: relative;
+   flex: 1;
+   font-family: "Open Sans", sans-serif;
+}
+select::-ms-expand{
+    display: none;
+}
+
+.select{
+    position: relative;
+    display: flex;
+    width: 20em;
+    height: 3em;
+    line-height: 3;
+    padding: 0 0.5em;
+    background: #27272a;
+    overflow: hidden;
+    border-radius: .25em;
+    
+}
+
+.select::after{
+    content: "\25BC";
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 1em;
+    background: #27272a;
+    cursor: pointer;
+    pointer-events: none;
+    transition: .25s all ease;
+}
+
+.select:hover::after{
+    color: #6556CD;
+}
+
+
+
+
+
