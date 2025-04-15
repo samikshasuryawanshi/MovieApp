@@ -35,6 +35,11 @@ const ContactUs = () => {
     e.preventDefault();
     // Handle form submission here
     console.log(formData);
+    setFormData({
+      name: '',
+      email: '',
+      message:''
+    });
   };
 
   const handleChange = (e) => {

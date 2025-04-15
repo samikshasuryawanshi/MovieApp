@@ -8,7 +8,7 @@ const Sidenav = () => {
     { path: "/trending", icon: "ri-fire-fill", label: "Trending" },
     { path: "/popular", icon: "ri-bard-fill", label: "Popular" },
     { path: "/movie", icon: "ri-movie-2-fill", label: "Movies" },
-    { path: "/tvshow", icon: "ri-movie-fill", label: "TV Shows" },
+    { path: "/tv", icon: "ri-movie-fill", label: "TV Shows" },
     { path: "/people", icon: "ri-team-fill", label: "People" }
   ];
 

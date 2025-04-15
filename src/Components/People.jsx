@@ -85,7 +85,7 @@ const People = () => {
             }
             scrollableTarget="scrollableDiv"
           >
-            <Cards data={people} title={category} />
+            <Cards data={people} title={"people"} />
           </InfiniteScroll>
         </div>
       </div>

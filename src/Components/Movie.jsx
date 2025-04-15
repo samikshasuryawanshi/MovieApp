@@ -22,7 +22,7 @@ const Movie = () => {
     const GetMovie = async () => {
       try {
         const {data} = await axios.get(`/movie/${category}?page=${page}`);
-        console.log(data);
+        // console.log(data);
         if(data.results.length > 0){
           setmovie(prevState => [...prevState, ...data.results]);
           setpage(page+1);
@@ -92,7 +92,7 @@ const Movie = () => {
             }
             scrollableTarget="scrollableDiv"
           >
-            <Cards data={movie} title={category} />
+            <Cards data={movie} title={"movie"} />
           </InfiniteScroll>
         </div>
       </div>
