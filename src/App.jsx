@@ -11,6 +11,7 @@ import ContactUs from './Components/partials/ContactUs.jsx'
 import MovieDetails from './Components/MovieDetails.jsx'
 import TvDetails from './Components/TvDetails.jsx'
 import PeopleDetails from './Components/PeopleDetails.jsx'
+import Trailer from './Components/partials/Trailer.jsx'
 
 
 function App() {
@@ -21,7 +22,9 @@ function App() {
             <Route path="/trending" element={<Trending/>}></Route>
             <Route path="/popular" element={<Popular/>}></Route>
             <Route path="/movie" element={<Movie/>} />
-            <Route path="/movie/details/:id" element={<MovieDetails/>}></Route>
+            <Route path="/movie/details/:id" element={<MovieDetails/>}>
+               <Route path='/movie/details/:id/trailer' element={<Trailer />}></Route>
+            </Route>
             <Route path="/tv" element={<TvShow/>} />
             <Route path="/tv/details/:id" element={<TvDetails/>}></Route>
             <Route path="/people" element={<People/>} />

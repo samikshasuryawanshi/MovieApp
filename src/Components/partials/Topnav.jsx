@@ -41,7 +41,7 @@ const Topnav = () => {
     <div className=" w-[60%] max-h-[50vh] bg-zinc-200 absolute top-[100%] left-[5%] overflow-auto rounded">
         {searches.map((s,i)=>{
             return(
-                <Link key={i} className='hover:text-black hover:bg-zinc-300 duration-200 font-semibold text-zinc-600 w-[100%] p-6 flex justify-start border-b-1 border-zinc-100  items-center'>
+                <Link to={`/${s.media_type}/details/${s.id}`}  key={i} className='hover:text-black hover:bg-zinc-300 duration-200 font-semibold text-zinc-600 w-[100%] p-6 flex justify-start border-b-1 border-zinc-100  items-center'>
                     <img className='w-[10vh] h-[10vh] shadow-lg rounded object-cover mr-4' src={
                         s.backdrop_path || s.poster_path || s.profile_path || s.logo_path ? `https://image.tmdb.org/t/p/w500/${s.poster_path || s.profile_path || s.backdrop_path || s.logo_path}`: noImage } alt="" />
                     <span>{s.name || s.title}</span>
