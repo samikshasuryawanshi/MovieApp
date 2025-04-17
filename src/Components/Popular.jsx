@@ -21,7 +21,7 @@ const navigate = useNavigate();
   const GetPopular = async () => {
     try {
       const {data} = await axios.get(`${category}/popular?page=${page}`);
-      console.log(data);
+      // console.log(data);
       if(data.results.length > 0){
         setpopular(prevState => [...prevState, ...data.results]);
         setpage(page+1);

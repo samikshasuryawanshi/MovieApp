@@ -4,7 +4,7 @@ import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-
 import { asyncloadMovie, removeMovie } from "../store/actions/movieActions";
 import Loading from "./Loading";
 import HorizontalCards from "./partials/HorizontalCards";
-
+ 
 
 const MovieDetails = () => {
   const {pathname} = useLocation();

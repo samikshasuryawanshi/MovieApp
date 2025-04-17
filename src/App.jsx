@@ -12,6 +12,7 @@ import MovieDetails from './Components/MovieDetails.jsx'
 import TvDetails from './Components/TvDetails.jsx'
 import PeopleDetails from './Components/PeopleDetails.jsx'
 import Trailer from './Components/partials/Trailer.jsx'
+import NotFound from './Components/NotFound.jsx'
 
 
 function App() {
@@ -26,11 +27,14 @@ function App() {
                <Route path='/movie/details/:id/trailer' element={<Trailer />}></Route>
             </Route>
             <Route path="/tv" element={<TvShow/>} />
-            <Route path="/tv/details/:id" element={<TvDetails/>}></Route>
-            <Route path="/people" element={<People/>} />
-            <Route path="/people/details/:id" element={<PeopleDetails/>}></Route>
+            <Route path="/tv/details/:id" element={<TvDetails/>}>
+                <Route path='/tv/details/:id/trailer' element={<Trailer />}></Route>
+            </Route>
+            <Route path="/person" element={<People/>} />
+            <Route path="/person/details/:id" element={<PeopleDetails/>}></Route>
             <Route path="/aboutus" element={<AboutUs/>}></Route>
             <Route path="/contactus" element={<ContactUs/>}></Route>
+            <Route path='*' element={<NotFound />}></Route>
         </Routes>
     </div>
  )

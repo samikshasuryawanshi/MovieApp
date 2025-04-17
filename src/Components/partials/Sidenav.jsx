@@ -9,7 +9,7 @@ const Sidenav = () => {
     { path: "/popular", icon: "ri-bard-fill", label: "Popular" },
     { path: "/movie", icon: "ri-movie-2-fill", label: "Movies" },
     { path: "/tv", icon: "ri-movie-fill", label: "TV Shows" },
-    { path: "/people", icon: "ri-team-fill", label: "People" }
+    { path: "/person", icon: "ri-team-fill", label: "People" }
   ];
 
   const infoItems = [
