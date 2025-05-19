@@ -13,16 +13,27 @@ const Trailer = () => {
    console.log(vd);
    
    
-  return  (
-
-    <div className='fixed top-0 left-0 h-screen w-screen flex items-center justify-center bg-[rgba(0,0,0,0.9)] '>
-         <Link
-            onClick={() => navigate(-1)}
-            className="ri-close-large-line fixed top-8 right-15 text-3xl hover:text-[#6556CD] cursor-pointer"> 
-          </Link>
-       {vd ?  <ReactPlayer controls height={700}  width={1080} url={`https://www.youtube.com/watch?v=${vd.key}`} /> : <NotFound />}
-    </div>
-  )
+  return (
+  <div className="fixed top-0 left-0 h-screen w-screen flex items-center justify-center bg-[rgba(0,0,0,0.9)] z-50 px-2 sm:px-8">
+    <Link
+      onClick={() => navigate(-1)}
+      className="ri-close-large-line fixed top-4 right-4 sm:top-8 sm:right-8 text-3xl sm:text-4xl hover:text-[#6556CD] cursor-pointer z-50"
+    ></Link>
+    {vd ? (
+      <div className="w-full max-w-3xl aspect-video flex items-center justify-center">
+        <ReactPlayer
+          controls
+          width="100%"
+          height="100%"
+          url={`https://www.youtube.com/watch?v=${vd.key}`}
+          style={{ borderRadius: '1rem', overflow: 'hidden' }}
+        />
+      </div>
+    ) : (
+      <NotFound />
+    )}
+  </div>
+)
 }
 
 export default Trailer

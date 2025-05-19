@@ -1,8 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState } from 'react';
 
 const Sidenav = () => {
   const location = useLocation();
+  const [open, setOpen] = useState(false);
 
   const navItems = [
     { path: "/trending", icon: "ri-fire-fill", label: "Trending" },
@@ -17,92 +19,127 @@ const Sidenav = () => {
     { path: "/contactus", icon: "ri-phone-fill", label: "Contact Us" }
   ];
 
-  return (
-    <motion.div 
-      initial={{ x: -100, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className='w-[20%] h-[100%] bg-[#1b1a20] p-8 border-r border-zinc-800'
-    >
-      <motion.div
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="flex items-center gap-3"
-      >
-        <i className="text-[#6556CD] text-3xl ri-tv-fill"></i>
-        <span className="text-2xl font-semibold text-white">CineMate</span>
-      </motion.div>
-
-      <nav className='mt-12 flex flex-col gap-1'>
-        <motion.h1 
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className='text-xl font-semibold text-zinc-300 mb-4'
-        >
-          New Feed's
-        </motion.h1>
-
-        {navItems.map((item, index) => (
-          <motion.div
+  // Sidebar content as a component for reuse
+  const SidebarContent = (
+    <div className="flex flex-col h-full">
+      {/* Only show logo in sidebar (not in topbar at the same time) */}
+      <div className="flex items-center gap-2 md:gap-3 mb-6">
+        <i className="text-[#6556CD] text-2xl md:text-3xl ri-tv-fill"></i>
+        <span className="text-lg md:text-2xl font-semibold text-white">CineMate</span>
+      </div>
+      <nav className="flex-1">
+        <h1 className="text-base md:text-xl font-semibold text-zinc-300 mb-2 md:mb-4">New Feed's</h1>
+        {navItems.map((item) => (
+          <Link
             key={item.path}
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.3, delay: 0.4 + index * 0.1 }}
+            to={item.path}
+            onClick={() => setOpen(false)}
+            className={`flex items-center gap-2 md:gap-3 rounded-lg mt-1 p-2 md:p-3 text-base md:text-lg transition-all duration-300 w-full ${
+              location.pathname === item.path
+                ? 'bg-[#6556CD] text-white'
+                : 'text-zinc-400 hover:bg-[#6556CD]/20 hover:text-white'
+            }`}
           >
-            <Link 
-              to={item.path}
-              className={`flex items-center gap-3 rounded-lg mt-1 p-3 text-lg transition-all duration-300 ${
-                location.pathname === item.path 
-                  ? 'bg-[#6556CD] text-white' 
-                  : 'text-zinc-400 hover:bg-[#6556CD]/20 hover:text-white'
-              }`}
-            >
-              <i className={`${item.icon} text-xl`}></i>
-              <span>{item.label}</span>
-            </Link>
-          </motion.div>
+            <i className={`${item.icon} text-lg md:text-xl`}></i>
+            <span className="truncate">{item.label}</span>
+          </Link>
         ))}
-
-        <motion.hr 
-          initial={{ width: 0 }}
-          animate={{ width: "100%" }}
-          transition={{ duration: 0.5, delay: 0.9 }}
-          className='border-none mt-4 bg-zinc-800 h-[1px]'
-        />
-
-        <motion.h1 
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1 }}
-          className='text-xl font-semibold text-zinc-300 mt-6 mb-4'
-        >
-          Website Information
-        </motion.h1>
-
-        {infoItems.map((item, index) => (
-          <motion.div
+        <hr className="border-none mt-2 md:mt-4 bg-zinc-800 h-[1px]" />
+        <h1 className="text-base md:text-xl font-semibold text-zinc-300 mt-4 md:mt-6 mb-2 md:mb-4">Website Information</h1>
+        {infoItems.map((item) => (
+          <Link
             key={item.path}
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.3, delay: 1.1 + index * 0.1 }}
+            to={item.path}
+            onClick={() => setOpen(false)}
+            className={`flex items-center gap-2 md:gap-3 rounded-lg p-2 md:p-3 text-base md:text-lg transition-all duration-300 w-full ${
+              location.pathname === item.path
+                ? 'bg-[#6556CD] text-white'
+                : 'text-zinc-400 hover:bg-[#6556CD]/20 hover:text-white'
+            }`}
           >
-            <Link 
-              to={item.path}
-              className={`flex items-center gap-3 rounded-lg p-3 text-lg transition-all duration-300 ${
-                location.pathname === item.path 
-                  ? 'bg-[#6556CD] text-white' 
-                  : 'text-zinc-400 hover:bg-[#6556CD]/20 hover:text-white'
-              }`}
-            >
-              <i className={`${item.icon} text-xl`}></i>
-              <span>{item.label}</span>
-            </Link>
-          </motion.div>
+            <i className={`${item.icon} text-lg md:text-xl`}></i>
+            <span className="truncate">{item.label}</span>
+          </Link>
         ))}
       </nav>
-    </motion.div>
+    </div>
+  );
+
+  return (
+    <>
+      {/* Topbar for mobile (no CineMate logo in sidebar when open) */}
+      <div className="md:hidden flex items-center justify-between bg-[#1b1a20] p-4 border-b border-zinc-800 fixed top-0 left-0 right-0 z-40">
+        <div className="flex items-center gap-2">
+          <i className="text-[#6556CD] text-2xl ri-tv-fill"></i>
+          <span className="text-lg font-semibold text-white">CineMate</span>
+        </div>
+        <button
+          className="text-white text-2xl focus:outline-none transition-all"
+          onClick={() => setOpen(true)}
+          aria-label="Open sidebar"
+        >
+          <i className="ri-menu-3-line"></i>
+        </button>
+      </div>
+
+      {/* Sidebar drawer for mobile */}
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.div
+              initial={{ x: -320, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -320, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="fixed top-0 left-0 h-full w-64 bg-[#1b1a20] z-50 shadow-lg md:hidden flex flex-col p-4"
+              style={{ touchAction: 'none' }}
+            >
+              <div className="flex items-center justify-between mb-6">
+                {/* Only show close button here, not logo again */}
+                <div />
+                <button
+                  className="text-white text-2xl focus:outline-none transition-all"
+                  onClick={() => setOpen(false)}
+                  aria-label="Close sidebar"
+                >
+                  <i className="ri-close-line"></i>
+                </button>
+              </div>
+              {SidebarContent}
+            </motion.div>
+            {/* Overlay for mobile drawer */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/40 z-40 md:hidden"
+              onClick={() => setOpen(false)}
+            />
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Sidebar for desktop */}
+      <motion.div
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="
+          hidden md:flex
+          flex-col
+          w-[250px] h-screen
+          bg-[#1b1a20]
+          p-8
+          border-r border-zinc-800
+          fixed md:static top-0 left-0 z-30
+        "
+      >
+        {SidebarContent}
+      </motion.div>
+      {/* Spacer for mobile topbar */}
+      <div className="h-5 md:hidden" />
+    </>
   );
 };
 

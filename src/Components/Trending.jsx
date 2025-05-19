@@ -50,8 +50,8 @@ const Trending = () => {
   return trending.length > 0 ? (
     <div className="w-screen h-screen px-2">
       {/* Fixed Header */}
-      <div className="w-full z-10 flex items-center py-3 px-5 shadow-2xl shadow-zinc-900 h-fit bg-[#1F1E24] fixed justify-between">
-        <h1 className="text-2xl cursor-pointer flex gap-3 font-semibold text-zinc-400">
+      <div className="w-full z-10 flex flex-col sm:flex-row items-start sm:items-center py-3 px-2 sm:px-5 shadow-2xl shadow-zinc-900 h-fit bg-[#1F1E24] fixed top-0 left-0 right-0 justify-between gap-3 sm:gap-0">
+        <h1 className="text-2xl cursor-pointer flex gap-3 font-semibold text-zinc-400 mb-2 sm:mb-0">
           <motion.div
             whileHover={{ scale: 1.1, rotate: 360 }}
             whileTap={{ scale: 0.9 }}
@@ -65,7 +65,7 @@ const Trending = () => {
           </motion.div>
           Trending
         </h1>
-        <div className="flex items-center gap-4 w-[75%]">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
           <Topnav />
           <DropDown
             title="Category"

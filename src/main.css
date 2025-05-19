@@ -8,6 +8,9 @@ secondary-color : #6556CD
  /* body{
     background: #24232b;
  } */
+html {
+  scroll-behavior: smooth;
+}
 
 ::-webkit-scrollbar{
     width: 7px;
@@ -38,22 +41,42 @@ select{
    position: relative;
    flex: 1;
    font-family: "Open Sans", sans-serif;
+   width: 100%;
+   min-width: 0;
+   border-radius: .25em;
+   transition: font-size 0.2s, padding 0.2s;
 }
 select::-ms-expand{
     display: none;
 }
 
-.select{
+.select {
     position: relative;
     display: flex;
-    width: 20em;
+    width: 100%;              /* Full width on mobile */
+    max-width: 20em;          /* Limit max width */
     height: 3em;
     line-height: 3;
     padding: 0 0.5em;
     background: #27272a;
     overflow: hidden;
     border-radius: .25em;
-    
+    margin-bottom: 0.5rem;
+    transition: width 0.2s;
+}
+
+@media (min-width: 640px) {
+    .select {
+        width: 16em;          /* Slightly smaller on sm+ screens */
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 639px) {
+    select {
+        font-size: 0.95em;
+        padding: 0 0.4em;
+    }
 }
 
 .select::after{

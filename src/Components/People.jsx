@@ -52,22 +52,22 @@ const People = () => {
     return people.length > 0 ? (
       <div className="w-screen h-screen px-2">
         {/* Fixed Header */}
-        <div className="w-full z-10 flex items-center py-3 px-5 shadow-2xl shadow-zinc-900 h-fit bg-[#1F1E24] fixed justify-between">
-          <h1 className="text-2xl cursor-pointer flex gap-3 font-semibold text-zinc-400">
-          <motion.div
-            whileHover={{ scale: 1.1, rotate: 360 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => navigate("/")}
-            className="w-10 h-10 rounded-full bg-[#6556CD] flex items-center justify-center cursor-pointer group relative"
-          >
-            <motion.i 
-              className="ri-home-4-line text-2xl text-white"
-              whileHover={{ scale: 1.2 }}
-            />
-          </motion.div>
+        <div className="w-full z-10 flex flex-col sm:flex-row items-start sm:items-center py-3 px-2 sm:px-5 shadow-2xl shadow-zinc-900 h-fit bg-[#1F1E24] fixed top-0 left-0 right-0 justify-between gap-3 sm:gap-0">
+          <h1 className="text-2xl cursor-pointer flex gap-3 font-semibold text-zinc-400 mb-2 sm:mb-0">
+            <motion.div
+              whileHover={{ scale: 1.1, rotate: 360 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => navigate("/")}
+              className="w-10 h-10 rounded-full bg-[#6556CD] flex items-center justify-center cursor-pointer group relative"
+            >
+              <motion.i 
+                className="ri-home-4-line text-2xl text-white"
+                whileHover={{ scale: 1.2 }}
+              />
+            </motion.div>
             People
           </h1> 
-          <div className="flex items-center gap-4 w-[75%]">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 w-full sm:w-auto">
             <Topnav />
           </div>
         </div>
