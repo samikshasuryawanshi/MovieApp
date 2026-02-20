@@ -1,12 +1,19 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import React, { useState, useEffect } from 'react';
+import axios from '../../utils/axios';
+import noImage from '/noImage.jpg';
 import logo from '/logo.png';
 
 const Navbar = () => {
     const location = useLocation();
     const [scrolled, setScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // For extra options on mobile
+
+    // Global Mobile Search State
+    const [query, setQuery] = useState("");
+    const [searches, setSearches] = useState([]);
+    const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
     // Handle scroll effect for frosted glass header
     useEffect(() => {
@@ -16,6 +23,27 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    // Fetch Global Search Results
+    const GetSearches = async () => {
+        if (!query.trim()) {
+            setSearches([]);
+            return;
+        }
+        try {
+            const { data } = await axios.get(`/search/multi?query=${query}`)
+            setSearches(data.results)
+        } catch (error) {
+            console.log("Error: ", error);
+        }
+    }
+
+    useEffect(() => {
+        const defaultTimer = setTimeout(() => {
+            GetSearches();
+        }, 300); // 300ms debounce
+        return () => clearTimeout(defaultTimer);
+    }, [query]);
 
     const navItems = [
         { path: "/", icon: "ri-home-fill", label: "Home" },
@@ -41,13 +69,8 @@ const Navbar = () => {
     return (
         <>
             {/* Desktop Top Header (Hidden on Mobile) */}
-            <header
-                className={`hidden md:block fixed top-0 left-0 right-0 z-50 transition-all duration-300  ${scrolled
-                    ? 'bg-[#1b1a20]/90 backdrop-blur-md shadow-2xl py-3'
-                    : 'bg-[#1b1a20]/90 backdrop-blur-md py-3'
-                    }`}
-            >
-                <div className="max-w-[1600px] mx-auto px-4 md:px-8 flex items-center justify-between">
+            <header className="hidden md:flex fixed top-0 left-0 right-0 z-[100] justify-center pt-4 transition-all duration-300 pointer-events-none">
+                <div className={`pointer-events-auto flex items-center justify-between w-[95%] max-w-[1500px] border border-white/10 rounded-full px-6 transition-all duration-500 ${scrolled ? 'bg-[#1b1a20]/95 backdrop-blur-2xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] py-2' : 'bg-[#1b1a20]/60 backdrop-blur-md shadow-2xl py-3'}`}>
                     {/* Logo Section */}
                     <div className="flex items-center gap-6 lg:gap-10">
                         <Link to="/" className="flex items-center gap-2 group">
@@ -86,6 +109,15 @@ const Navbar = () => {
 
                     {/* Right Side Actions */}
                     <div className="flex items-center gap-4">
+                        {/* Global Search Button */}
+                        <button
+                            onClick={() => setIsMobileSearchOpen(true)}
+                            className="w-10 h-10 rounded-full bg-white/5 text-zinc-300 hover:bg-[#6556CD] hover:text-white transition-all flex items-center justify-center border border-white/5 hover:border-[#6556CD]/50 hover:shadow-[0_0_15px_rgba(101,86,205,0.4)]"
+                            title="Search"
+                        >
+                            <i className="ri-search-2-line text-lg"></i>
+                        </button>
+
                         <div className="flex items-center gap-3 border-r border-white/10 pr-4 mr-1">
                             {extraItems.slice(0, 3).map(item => (
                                 <Link
@@ -117,8 +149,8 @@ const Navbar = () => {
             </header>
 
             {/* Mobile Top Header (Just Logo) */}
-            <header className={`md:hidden fixed top-0 left-0 right-0 z-[100] transition-all duration-300 border-b ${scrolled ? 'bg-[#1b1a20]/90 backdrop-blur-md border-white/5 shadow-xl py-3' : 'bg-transparent border-transparent py-4'}`}>
-                <div className="px-4 flex items-center justify-center">
+            <header className={`md:hidden  fixed top-0 left-0 right-0 z-[100]  transition-all duration-300 ${scrolled ? 'bg-[#1b1a20]/90 backdrop-blur-md border-white/5 shadow-xl py-3' : 'bg-[#1b1a20]/90 backdrop-blur-md border-white/5 shadow-xl py-4'}`}>
+                <div className="px-4 flex">
                     <Link to="/" className="flex items-center gap-2">
                         <img src={logo} alt="CineMate Logo" className="h-8 w-auto drop-shadow-[0_0_15px_rgba(101,86,205,0.4)]" />
                         <span className="text-lg font-bold text-white tracking-wide mix-blend-difference">
@@ -168,50 +200,155 @@ const Navbar = () => {
                 )}
             </AnimatePresence>
 
-            {/* Mobile Bottom Navigation Bar */}
-            <nav className="md:hidden fixed bottom-0 left-0 right-0 z-[100] bg-[#121115]/90 backdrop-blur-xl border-t border-white/10 pb-safe pb-2 pt-2 px-2 shadow-[0_-5px_30px_rgba(0,0,0,0.3)]">
-                <div className="flex items-center justify-around relative">
-                    {/* Nav Links */}
-                    {[navItems[0], navItems[1], navItems[2]].map((item) => {
-                        const active = isActive(item.path);
-                        return (
-                            <Link
-                                key={item.path}
-                                to={item.path}
-                                onClick={() => setMobileMenuOpen(false)}
-                                className="relative flex flex-col items-center justify-center w-16 h-12 gap-1 group"
-                            >
-                                <i className={`${item.icon} text-xl transition-all duration-300 ${active ? 'text-[#6556CD] -translate-y-1' : 'text-zinc-500'}`}></i>
-                                <span className={`text-[10px] font-medium transition-all duration-300 ${active ? 'text-white opacity-100' : 'text-zinc-500 opacity-70'}`}>
-                                    {item.label}
-                                </span>
-                                {active && (
-                                    <motion.div
-                                        layoutId="mobileNavIndicator"
-                                        className="absolute -top-2 w-10 h-1 bg-gradient-to-r from-transparent via-[#6556CD] to-transparent rounded-full"
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        transition={{ duration: 0.3 }}
-                                    />
-                                )}
-                            </Link>
-                        );
-                    })}
+            {/* Mobile Global Search FAB */}
+            <button
+                onClick={() => setIsMobileSearchOpen(true)}
+                className="md:hidden fixed bottom-[90px] right-4 z-[90] w-14 h-14 bg-[#6556CD] text-white rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(101,86,205,0.6)] hover:bg-[#5244ad] active:scale-95 transition-all duration-300 pointer-events-auto"
+            >
+                <i className="ri-search-2-line text-2xl"></i>
+            </button>
 
-                    {/* Menu Toggle */}
-                    <button
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="relative flex flex-col items-center justify-center w-16 h-12 gap-1 group"
+            {/* Full-Screen Search Overlay (Global for Desktop & Mobile) */}
+            <AnimatePresence>
+                {isMobileSearchOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95, y: -20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: -20, transition: { duration: 0.2 } }}
+                        className="fixed inset-0 z-[200] bg-[#121115]/95 backdrop-blur-xl overflow-hidden flex flex-col pt-6 px-4 md:px-10"
                     >
-                        <div className={`transition-all duration-300 ${mobileMenuOpen ? 'text-[#6556CD] -translate-y-1' : 'text-zinc-500'}`}>
-                            {mobileMenuOpen ? <i className="ri-close-fill text-2xl"></i> : <i className="ri-menu-4-fill text-xl"></i>}
+                        <div className="max-w-[1000px] w-full mx-auto flex flex-col h-full">
+                            {/* Search Input Area */}
+                            <div className="flex items-center gap-3 md:gap-6 w-full mb-6 md:mb-10">
+                                <button
+                                    onClick={() => setIsMobileSearchOpen(false)}
+                                    className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white active:bg-white/20 transition-all border border-transparent hover:border-white/10"
+                                >
+                                    <i className="ri-arrow-left-line text-xl md:text-2xl"></i>
+                                </button>
+                                <div className="flex-1 flex items-center bg-[#1b1a20] border border-[#6556CD]/50 h-[50px] md:h-[70px] rounded-full px-4 md:px-8 shadow-[0_0_20px_rgba(101,86,205,0.2)]">
+                                    <i className="ri-search-2-line text-xl md:text-3xl text-zinc-400 mr-3 md:mr-5"></i>
+                                    <input
+                                        autoFocus
+                                        onChange={(e) => setQuery(e.target.value)}
+                                        value={query}
+                                        type="text"
+                                        placeholder="Search for movies, tv shows, people..."
+                                        className="outline-none w-full text-white placeholder:text-zinc-500 text-sm md:text-xl md:font-medium bg-transparent"
+                                    />
+                                    {query.length > 0 && (
+                                        <i
+                                            onClick={() => setQuery("")}
+                                            className="text-xl md:text-3xl cursor-pointer text-zinc-400 hover:text-white active:text-white ri-close-fill ml-2 transition-colors"
+                                        ></i>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Search Results */}
+                            <div className="flex-1 overflow-y-auto pb-24 md:pb-10 custom-scrollbar pr-2">
+                                {query.length === 0 ? (
+                                    <div className="flex flex-col items-center justify-center h-[50vh] opacity-30 text-zinc-400 gap-4 mt-10 md:mt-20">
+                                        <i className="ri-search-2-line text-6xl md:text-8xl mb-2"></i>
+                                        <p className="text-lg md:text-2xl font-medium">Type something to explore</p>
+                                    </div>
+                                ) : searches.length > 0 ? (
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+                                        {searches.map((s, i) => (
+                                            <Link
+                                                to={`/${s.media_type}/details/${s.id}`}
+                                                key={i}
+                                                className="bg-white/5 hover:bg-white/10 active:bg-white/15 p-3 md:p-4 rounded-2xl flex items-center gap-4 transition-all border border-transparent hover:border-white/10 group cursor-pointer"
+                                                onClick={() => {
+                                                    setQuery("");
+                                                    setIsMobileSearchOpen(false);
+                                                }}
+                                            >
+                                                <img
+                                                    className="w-14 h-20 md:w-16 md:h-24 shadow-md rounded-lg object-cover group-hover:scale-105 transition-transform"
+                                                    src={
+                                                        s.backdrop_path || s.poster_path || s.profile_path || s.logo_path
+                                                            ? `https://image.tmdb.org/t/p/w200/${s.poster_path || s.profile_path || s.backdrop_path || s.logo_path}`
+                                                            : noImage
+                                                    }
+                                                    alt=""
+                                                />
+                                                <div className="flex flex-col overflow-hidden flex-1 justify-center">
+                                                    <span className="font-semibold text-sm md:text-base text-zinc-200 group-hover:text-white truncate transition-colors">
+                                                        {s.name || s.title || s.original_name || s.original_title}
+                                                    </span>
+                                                    <div className="flex items-center gap-2 mt-2">
+                                                        <span className="text-[10px] md:text-xs uppercase bg-[#1b1a20] text-zinc-400 px-2 md:px-2.5 py-0.5 md:py-1 rounded flex items-center gap-1 group-hover:bg-[#6556CD]/20 group-hover:text-[#6556CD] transition-colors border border-white/5">
+                                                            <i className={s.media_type === 'movie' ? 'ri-movie-2-line' : s.media_type === 'tv' ? 'ri-tv-line' : 'ri-user-line'}></i> {s.media_type}
+                                                        </span>
+                                                        {s.vote_average > 0 && (
+                                                            <span className="text-[10px] md:text-xs text-yellow-500 font-medium flex items-center gap-1 bg-yellow-500/10 px-2 md:px-2.5 py-0.5 md:py-1 rounded border border-yellow-500/20">
+                                                                <i className="ri-star-fill"></i> {(s.vote_average).toFixed(1)}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className="text-center text-zinc-500 mt-20 text-base md:text-xl flex flex-col items-center gap-4">
+                                        <i className="ri-ghost-line text-5xl md:text-7xl opacity-50"></i>
+                                        <p>No results found for "<span className="text-white">{query}</span>"</p>
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                        <span className={`text-[10px] font-medium transition-all duration-300 ${mobileMenuOpen ? 'text-white opacity-100' : 'text-zinc-500 opacity-70'}`}>
-                            {mobileMenuOpen ? 'Close' : 'Menu'}
-                        </span>
-                    </button>
-                </div>
-            </nav>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Mobile Bottom Navigation Bar - Floating Dock */}
+            <div className="md:hidden fixed bottom-4 left-4 right-4 z-[100] pointer-events-none">
+                <nav className="bg-[#1b1a20]/95 backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-[0_15px_40px_rgba(0,0,0,0.6)] px-2 py-2 pointer-events-auto">
+                    <div className="flex items-center justify-around relative">
+                        {/* Nav Links */}
+                        {[navItems[0], navItems[1], navItems[2]].map((item) => {
+                            const active = isActive(item.path);
+                            return (
+                                <Link
+                                    key={item.path}
+                                    to={item.path}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="relative flex flex-col items-center justify-center w-16 h-12 gap-1 group"
+                                >
+                                    <i className={`${item.icon} text-xl transition-all duration-300 ${active ? 'text-[#6556CD] -translate-y-1' : 'text-zinc-500'}`}></i>
+                                    <span className={`text-[10px] font-medium transition-all duration-300 ${active ? 'text-white opacity-100' : 'text-zinc-500 opacity-70'}`}>
+                                        {item.label}
+                                    </span>
+                                    {active && (
+                                        <motion.div
+                                            layoutId="mobileNavIndicator"
+                                            className="absolute -top-2 w-10 h-1 bg-gradient-to-r from-transparent via-[#6556CD] to-transparent rounded-full"
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            transition={{ duration: 0.3 }}
+                                        />
+                                    )}
+                                </Link>
+                            );
+                        })}
+
+                        {/* Menu Toggle */}
+                        <button
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="relative flex flex-col items-center justify-center w-16 h-12 gap-1 group"
+                        >
+                            <div className={`transition-all duration-300 ${mobileMenuOpen ? 'text-[#6556CD] -translate-y-1' : 'text-zinc-500'}`}>
+                                {mobileMenuOpen ? <i className="ri-close-fill text-2xl"></i> : <i className="ri-menu-4-fill text-xl"></i>}
+                            </div>
+                            <span className={`text-[10px] font-medium transition-all duration-300 ${mobileMenuOpen ? 'text-white opacity-100' : 'text-zinc-500 opacity-70'}`}>
+                                {mobileMenuOpen ? 'Close' : 'Menu'}
+                            </span>
+                        </button>
+                    </div>
+                </nav>
+            </div>
         </>
     );
 };

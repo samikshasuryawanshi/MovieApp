@@ -10,7 +10,7 @@ const HorizontalCards = ({ data }) => {
     const { current } = scrollRef;
     if (current) {
       current.scrollBy({
-        left: direction === 'left' ? -300 : 300,
+        left: direction === 'left' ? -current.offsetWidth / 1.5 : current.offsetWidth / 1.5,
         behavior: 'smooth'
       });
     }
@@ -22,64 +22,79 @@ const HorizontalCards = ({ data }) => {
         <>
           <button
             onClick={() => scroll('left')}
-            className="absolute left-2 top-[40%] text-2xl -translate-y-1/2 z-10 bg-black/50 hover:bg-[#6556CD] text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md opacity-0 group-hover/container:opacity-100 transition-all duration-300 disabled:opacity-0 hidden sm:flex cursor-pointer shadow-lg"
+            className="absolute left-0 top-0 bottom-0 z-20 bg-black/50 hover:bg-black/80 text-white w-12 flex items-center justify-center opacity-0 group-hover/container:opacity-100 transition-all duration-300 disabled:opacity-0 hidden sm:flex cursor-pointer"
           >
-            <i className="ri-arrow-left-s-line"></i>
+            <i className="ri-arrow-left-s-line text-4xl transform transition-transform group-hover/container:scale-125"></i>
           </button>
           <button
             onClick={() => scroll('right')}
-            className="absolute right-2 top-[40%] text-2xl -translate-y-1/2 z-10 bg-black/50 hover:bg-[#6556CD] text-white w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-md opacity-0 group-hover/container:opacity-100 transition-all duration-300 disabled:opacity-0 hidden sm:flex cursor-pointer shadow-lg"
+            className="absolute right-0 top-0 bottom-0 z-20 bg-black/50 hover:bg-black/80 text-white w-12 flex items-center justify-center opacity-0 group-hover/container:opacity-100 transition-all duration-300 disabled:opacity-0 hidden sm:flex cursor-pointer"
           >
-            <i className="ri-arrow-right-s-line"></i>
+            <i className="ri-arrow-right-s-line text-4xl transform transition-transform group-hover/container:scale-125"></i>
           </button>
         </>
       )}
 
+      {/* Fade edges */}
+      <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#141414] to-transparent z-10 pointer-events-none hidden sm:block"></div>
+      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#141414] to-transparent z-10 pointer-events-none hidden sm:block"></div>
+
       <div
         ref={scrollRef}
-        className="w-full flex overflow-x-auto gap-4 sm:gap-5 pb-6 pt-2 px-1 snap-x snap-mandatory scrollbar-hide"
+        className="w-full flex overflow-x-auto gap-2 sm:gap-3 py-4 md:py-8 px-1 snap-x snap-mandatory scrollbar-hide relative z-0"
       >
         {data.length > 0 ? data.map((d, i) => {
           return (
             <Link
               to={`/${d.media_type || 'movie'}/details/${d.id}`}
               key={i}
-              className="min-w-[75vw] xs:min-w-[60vw] sm:min-w-[45vw] md:min-w-[32vw] lg:min-w-[22vw] bg-[#1b1a20] rounded-xl flex-shrink-0 hover:-translate-y-2 transition-transform duration-300 snap-start border border-zinc-800 hover:border-[#6556CD]/50 group overflow-hidden shadow-md flex flex-col"
+              className="min-w-[35vw] xs:min-w-[28vw] sm:min-w-[22vw] md:min-w-[18vw] lg:min-w-[14vw] rounded bg-[#141414] flex-shrink-0 transition-all duration-300 snap-start group relative"
             >
-              <div className="relative h-[20vh] sm:h-[25vh] overflow-hidden w-full bg-[#1F1E24]">
+              <div className="relative aspect-[2/3] overflow-hidden w-full rounded shadow-sm group-hover:shadow-[0_0_20px_rgba(0,0,0,0.8)] transition-all duration-300 group-hover:scale-105 group-hover:z-30 group-hover:border-white/20 border border-transparent">
                 <img
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="w-full h-full object-cover"
                   src={
-                    d.backdrop_path || d.poster_path
-                      ? `https://image.tmdb.org/t/p/w500/${d.backdrop_path || d.poster_path}`
+                    d.poster_path
+                      ? `https://image.tmdb.org/t/p/w500/${d.poster_path}`
                       : noImage
                   }
                   alt={d.title || d.name || d.original_title || d.original_name}
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1b1a20] via-black/30 to-transparent"></div>
 
-                {d.vote_average > 0 && (
-                  <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-white text-xs font-bold px-2 py-1 rounded-md border border-white/10 flex items-center gap-1 shadow-md">
-                    <i className="ri-star-fill text-yellow-500"></i>
-                    {(d.vote_average).toFixed(1)}
+                {/* Netflix Style Hover Content overlay (visible only on desktop hover) */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 lg:hidden group-hover:lg:flex pointer-events-none">
+
+                  <div className="flex gap-2 items-center mb-1">
+                    <button className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center transform hover:scale-110 transition">
+                      <i className="ri-play-fill text-lg ml-0.5"></i>
+                    </button>
+                    <button className="w-8 h-8 rounded-full border border-white/50 text-white flex items-center justify-center hover:border-white transform hover:scale-110 transition bg-black/50">
+                      <i className="ri-add-line text-lg"></i>
+                    </button>
+                    <div className="ml-auto w-8 h-8 rounded-full border border-white/50 text-white flex items-center justify-center hover:border-white transform hover:scale-110 transition bg-black/50">
+                      <i className="ri-arrow-down-s-line text-lg mt-0.5"></i>
+                    </div>
                   </div>
-                )}
 
-                <div className="absolute bottom-3 left-3 right-3 text-white">
-                  <h1 className="text-base sm:text-lg font-bold truncate group-hover:text-[#6556CD] transition-colors drop-shadow-md">
+                  <div className="flex items-center gap-2 text-[10px] font-semibold text-white mt-1">
+                    <span className="text-[#46d369]">{Math.round((d.vote_average * 10))}% Match</span>
+                    <span className="border border-white/40 px-1 rounded text-[8px]">HD</span>
+                  </div>
+                  <h1 className="text-xs font-bold text-white line-clamp-1 mt-1">
                     {d.title || d.name || d.original_title || d.original_name}
                   </h1>
                 </div>
-              </div>
-              <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between">
-                <p className="text-zinc-400 text-xs sm:text-sm line-clamp-2 md:line-clamp-3 leading-relaxed">
-                  {d.overview || "No description available."}
-                </p>
-                <div className="mt-3 flex items-center justify-between text-xs text-zinc-500 font-medium pt-2 border-t border-zinc-800">
-                  <span>{d.release_date || d.first_air_date ? new Date(d.release_date || d.first_air_date).getFullYear() : ""}</span>
-                  <span className="text-[#6556CD] group-hover:underline">View Details <i className="ri-arrow-right-line"></i></span>
-                </div>
+
+                {/* Top badges (always visible if conditions met) */}
+                {d.media_type && (
+                  <div className="absolute top-2 left-2 pointer-events-none">
+                    <span className="bg-[#E50914] text-white text-[8px] sm:text-[10px] font-black px-1.5 py-[1px] rounded-[2px] tracking-wider uppercase drop-shadow-md">
+                      {d.media_type === 'tv' ? 'Series' : 'Film'}
+                    </span>
+                  </div>
+                )}
+
               </div>
             </Link>
           )

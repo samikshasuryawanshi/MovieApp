@@ -20,9 +20,9 @@ import Navbar from './Components/partials/Navbar.jsx'
 
 function App() {
     return (
-        <div className='bg-[#1F1E24] flex flex-col overflow-y-auto overflow-x-hidden h-screen w-screen text-white pb-[80px] md:pb-0'>
+        <div className='bg-[#1F1E24] flex flex-col overflow-y-auto overflow-x-hidden h-screen w-screen text-white pb-[120px] md:pb-0'>
             <Navbar />
-            <div className="flex-1 w-full pt-[80px]"> {/* Padding for fixed Navbar */}
+            <div className="flex-1 w-full"> {/* Padding for fixed Navbar */}
                 <Routes>
                     <Route path="/" element={<Home />}></Route>
                     <Route path="/trending" element={<Trending />}></Route>
