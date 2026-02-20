@@ -10,15 +10,15 @@ const Header = ({ data }) => {
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
       }}
-      className="w-full h-[50vh] sm:h-[60vh] md:h-[70vh] flex flex-col justify-end items-start p-6 sm:p-10 md:p-16 rounded-xl overflow-hidden relative mb-8 border border-zinc-800 shadow-xl"
+      className="w-full h-[50vh] sm:h-[60vh] md:h-[70vh] flex flex-col justify-end items-start p-4 pb-8 sm:p-10 md:p-16 rounded-xl overflow-hidden relative mb-8 border border-zinc-800 shadow-xl"
     >
-      <div className="absolute inset-0 bg-gradient-to-t from-[#1F1E24] via-transparent to-transparent opacity-90"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-[#1F1E24] via-[#1F1E24]/30 to-transparent opacity-90 sm:opacity-80"></div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="w-full sm:w-[85%] lg:w-[65%] xl:w-[50%] relative z-10 flex flex-col gap-3 sm:gap-4"
+        className="w-full sm:w-[85%] lg:w-[65%] xl:w-[50%] relative z-10 flex flex-col gap-2 sm:gap-4"
       >
         <h1 className="text-white text-3xl sm:text-5xl md:text-6xl font-black drop-shadow-2xl leading-tight">
           {data.title || data.name || data.original_name || data.original_title}

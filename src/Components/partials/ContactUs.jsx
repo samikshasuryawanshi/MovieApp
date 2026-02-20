@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import Sidenav from './Sidenav';
 import { Link } from 'react-router-dom';
 
 const ContactUs = () => {
@@ -38,7 +37,7 @@ const ContactUs = () => {
     setFormData({
       name: '',
       email: '',
-      message:''
+      message: ''
     });
   };
 
@@ -49,17 +48,17 @@ const ContactUs = () => {
     });
   };
 
+  const toggleFaq = (index) => {
+    setActiveFaq(activeFaq === index ? null : index);
+  };
+
   return (
-    <div className="flex flex-col md:flex-row min-h-screen w-full bg-[#1F1E24] overflow-hidden">
-      {/* Sidebar */}
-      <div className="w-full md:w-[250px]">
-        <Sidenav />
-      </div>
-      {/* Main Content */}
-      <div className="w-full md:w-[calc(100%-250px)] h-full overflow-hidden overflow-y-auto px-3 sm:px-5 mt-5 pt-14 pb-10">
-      <div className="max-w-5xl mx-auto">
+    <div className="w-full min-h-screen bg-[#1F1E24] text-white overflow-x-hidden">
+      {/* Main Content Area */}
+      <div className="w-full flex-1 relative scrollbar-hide px-3 sm:px-5 mt-5 pt-14 pb-10">
+        <div className="max-w-5xl mx-auto">
           {/* Header */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -71,7 +70,7 @@ const ContactUs = () => {
                 whileTap={{ scale: 0.9 }}
                 className="absolute top-2 left-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#6556CD] rounded-full flex items-center justify-center group cursor-pointer"
               >
-                <motion.i 
+                <motion.i
                   className="ri-home-4-fill text-2xl sm:text-3xl text-white"
                   whileHover={{ scale: 1.2 }}
                 ></motion.i>
@@ -94,7 +93,7 @@ const ContactUs = () => {
               className="space-y-8 sm:space-y-12"
             >
               {/* Email */}
-              <motion.div 
+              <motion.div
                 whileHover={{ scale: 1.02 }}
                 className="flex items-center cursor-pointer gap-4 sm:gap-6 p-4 sm:p-6 bg-[#1b1a20] rounded-2xl group"
               >
@@ -107,7 +106,7 @@ const ContactUs = () => {
                 </div>
               </motion.div>
               {/* Phone */}
-              <motion.div 
+              <motion.div
                 whileHover={{ scale: 1.02 }}
                 className="flex items-center cursor-pointer gap-4 sm:gap-6 p-4 sm:p-6 bg-[#1b1a20] rounded-2xl group"
               >
@@ -120,7 +119,7 @@ const ContactUs = () => {
                 </div>
               </motion.div>
               {/* Address */}
-              <motion.div 
+              <motion.div
                 whileHover={{ scale: 1.02 }}
                 className="flex items-center cursor-pointer gap-4 sm:gap-6 p-4 sm:p-6 bg-[#1b1a20] rounded-2xl group"
               >
@@ -156,13 +155,13 @@ const ContactUs = () => {
               className="bg-[#1b1a20] p-4 sm:p-8 rounded-2xl"
             >
               <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
-                <motion.div 
+                <motion.div
                   whileHover={{ scale: 1.02 }}
                   className="space-y-1 sm:space-y-2"
                 >
                   <label className="text-white text-base sm:text-lg">Name</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
@@ -170,13 +169,13 @@ const ContactUs = () => {
                     placeholder="Your Name"
                   />
                 </motion.div>
-                <motion.div 
+                <motion.div
                   whileHover={{ scale: 1.02 }}
                   className="space-y-1 sm:space-y-2"
                 >
                   <label className="text-white text-base sm:text-lg">Email</label>
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -184,12 +183,12 @@ const ContactUs = () => {
                     placeholder="Your Email"
                   />
                 </motion.div>
-                <motion.div 
+                <motion.div
                   whileHover={{ scale: 1.02 }}
                   className="space-y-1 sm:space-y-2"
                 >
                   <label className="text-white text-base sm:text-lg">Message</label>
-                  <textarea 
+                  <textarea
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
@@ -230,7 +229,7 @@ const ContactUs = () => {
                     className="w-full cursor-pointer p-4 sm:p-6 text-left flex items-center justify-between"
                   >
                     <span className="text-white text-base sm:text-lg font-semibold">{faq.question}</span>
-                    <motion.i 
+                    <motion.i
                       className={`ri-arrow-down-s-line text-xl sm:text-2xl text-[#6556CD] transition-transform duration-300 ${activeFaq === index ? 'rotate-180' : ''}`}
                     ></motion.i>
                   </button>
