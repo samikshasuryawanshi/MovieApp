@@ -20,7 +20,7 @@ import Navbar from './Components/partials/Navbar.jsx'
 
 function App() {
     return (
-        <div className='bg-[#1F1E24] flex flex-col overflow-y-auto overflow-x-hidden h-screen w-screen text-white pb-[120px] md:pb-0'>
+        <div className='bg-[#0f1014] text-white'>
             <Navbar />
             <div className="flex-1 w-full"> {/* Padding for fixed Navbar */}
                 <Routes>
