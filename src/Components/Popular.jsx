@@ -10,7 +10,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { motion } from 'framer-motion';
 
 const Popular = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const [category, setcategory] = useState("movie");
   const [popular, setpopular] = useState([]);
   const [page, setpage] = useState(1);
@@ -20,13 +20,13 @@ const navigate = useNavigate();
 
   const GetPopular = async () => {
     try {
-      const {data} = await axios.get(`${category}/popular?page=${page}`);
+      const { data } = await axios.get(`${category}/popular?page=${page}`);
       // console.log(data);
-      if(data.results.length > 0){
+      if (data.results.length > 0) {
         setpopular(prevState => [...prevState, ...data.results]);
-        setpage(page+1);
+        setpage(page + 1);
 
-      }else{
+      } else {
         setHasMore(false);
       }
     } catch (error) {
@@ -35,9 +35,9 @@ const navigate = useNavigate();
   }
 
   const resetPage = () => {
-    if(popular.length === 0){
+    if (popular.length === 0) {
       GetPopular();
-    }else{
+    } else {
       setpage(1);
       setpopular([]);
       GetPopular();
@@ -47,22 +47,22 @@ const navigate = useNavigate();
   useEffect(() => {
     resetPage();
   }, [category]);
-  
-  
 
-   return popular.length > 0 ? (
+
+
+  return popular.length > 0 ? (
     <div className="w-screen h-screen px-2">
       {/* Fixed Header */}
-      <div className="w-full z-10 flex flex-col sm:flex-row items-start sm:items-center py-3 px-2 sm:px-5 shadow-2xl shadow-zinc-900 h-fit bg-[#1F1E24] fixed top-0 left-0 right-0 justify-between gap-3 sm:gap-0">
-        <h1 className="text-2xl cursor-pointer flex gap-3 font-semibold text-zinc-400 mb-2 sm:mb-0">
+      <div className="w-full z-10 flex flex-col sm:flex-row items-start sm:items-center py-3 sm:py-4 px-4 sm:px-8 border-b border-white/5 shadow-2xl h-fit bg-[#1F1E24]/80 backdrop-blur-xl fixed top-0 left-0 right-0 justify-between gap-3 sm:gap-0 transition-all">
+        <h1 className="text-2xl cursor-pointer flex items-center gap-4 font-black text-white drop-shadow-md mb-2 sm:mb-0 tracking-wide">
           <motion.div
             whileHover={{ scale: 1.1, rotate: 360 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => navigate("/")}
-            className="w-10 h-10 rounded-full bg-[#6556CD] flex items-center justify-center cursor-pointer group relative"
+            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-[#6556CD] to-[#4A3B9C] flex items-center justify-center cursor-pointer group relative shadow-lg shadow-[#6556CD]/30"
           >
-            <motion.i 
-              className="ri-home-4-line text-2xl text-white"
+            <motion.i
+              className="ri-home-4-line text-xl sm:text-2xl text-white"
               whileHover={{ scale: 1.2 }}
             />
           </motion.div>
@@ -79,7 +79,7 @@ const navigate = useNavigate();
       </div>
 
       {/* Scrollable Content */}
-      <div id="scrollableDiv"className=" pt-[80px] overflow-y-auto h-full">
+      <div id="scrollableDiv" className="pt-[100px] sm:pt-[110px] overflow-y-auto h-full">
         <InfiniteScroll
           dataLength={popular.length}
           next={GetPopular}
