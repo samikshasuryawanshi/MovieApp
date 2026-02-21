@@ -17,7 +17,7 @@ const Trailer = () => {
   <div className="fixed top-0 left-0 h-screen w-screen flex items-center justify-center bg-[rgba(0,0,0,0.9)] z-50 px-2 sm:px-8">
     <Link
       onClick={() => navigate(-1)}
-      className="ri-close-large-line fixed top-4 right-4 sm:top-8 sm:right-8 text-3xl sm:text-4xl hover:text-[#6556CD] cursor-pointer z-50"
+      className="ri-close-large-line fixed  right-4 sm:top-25 sm:right-8 text-3xl sm:text-4xl hover:text-[#6556CD] cursor-pointer z-50"
     ></Link>
     {vd ? (
       <div className="w-full max-w-3xl aspect-video flex items-center justify-center">
