@@ -149,14 +149,20 @@ const Navbar = () => {
             </header>
 
             {/* Mobile Top Header (Just Logo) */}
-            <header className={`md:hidden  fixed top-0 left-0 right-0 z-[100]  transition-all duration-300 ${scrolled ? 'bg-[#1b1a20]/90 backdrop-blur-md border-white/5 shadow-xl py-3' : 'bg-[#1b1a20]/90 backdrop-blur-md border-white/5 shadow-xl py-4'}`}>
-                <div className="px-4 flex">
-                    <Link to="/" className="flex items-center gap-2">
-                        <img src={logo} alt="CineMate Logo" className="h-8 w-auto drop-shadow-[0_0_15px_rgba(101,86,205,0.4)]" />
-                        <span className="text-lg font-bold text-white tracking-wide mix-blend-difference">
-                            Cine<span className="text-[#6556CD]">Mate</span>
+            <header className={`md:hidden fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${scrolled ? 'bg-[#121115]/95 backdrop-blur-3xl border-b border-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.8)] py-3' : 'bg-gradient-to-b from-[#0f1014]/90 via-[#0f1014]/50 to-transparent pt-4 pb-6'}`}>
+                <div className="px-5 flex items-center justify-between">
+                    <Link to="/" className="flex items-center gap-2.5 group">
+                        <div className="relative">
+                            <div className="absolute inset-0 bg-[#6556CD] blur-lg opacity-40 group-hover:opacity-70 transition-opacity duration-300 rounded-full"></div>
+                            <img src={logo} alt="CineMate Logo" className="h-9 w-auto relative z-10 transform group-hover:scale-105 transition-transform duration-300" />
+                        </div>
+                        <span className="text-xl font-black text-white tracking-tight drop-shadow-md">
+                            Cine<span className="text-[#6556CD] font-bold">Mate</span>
                         </span>
                     </Link>
+
+                    {/* Optional small elegant trailing element for visual balance */}
+                    <div className={`w-2 h-2 rounded-full bg-[#6556CD] shadow-[0_0_10px_#6556CD] transition-all duration-500 delay-100 ${scrolled ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}></div>
                 </div>
             </header>
 
