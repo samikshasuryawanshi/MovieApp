@@ -53,7 +53,7 @@ const PeopleDetails = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#0f0e13] relative overflow-hidden flex flex-col pt-6 pb-16 px-4 md:px-8 text-white font-sans">
+    <div className="w-full min-h-screen bg-[#0f0e13] relative overflow-hidden flex flex-col pt-6 pb-16 px-4 md:px-8 text-white mt-20 font-sans">
       {/* Abstract Background Elements */}
       <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-[#6556CD] opacity-[0.05] blur-[150px] rounded-full pointer-events-none z-0"></div>
       <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-purple-600 opacity-[0.05] blur-[150px] rounded-full pointer-events-none z-0"></div>
